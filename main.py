@@ -2,6 +2,7 @@ import os
 import sys
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 
 def main():
     # generate_response()
@@ -14,9 +15,12 @@ def get_api_key():
 
 def generate_response():
     client = genai.Client(api_key=get_api_key())
+    messages = [
+        types.Content(role="user", parts=[types.Part(text=get_prompt_from_cmdl())])
+    ]
     response = client.models.generate_content(
         model="gemini-2.0-flash-001", 
-        contents="Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
+        contents=messages
     )
     print(response.text)
     print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
