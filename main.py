@@ -1,9 +1,11 @@
 import os
+import sys
 from dotenv import load_dotenv
 from google import genai
 
 def main():
-    print("Hello from agentic-ai-editor!")
+    # generate_response()
+    get_prompt_from_cmdl()
 
 def get_api_key():
     load_dotenv()
@@ -17,6 +19,16 @@ def generate_response():
         contents="Why is Boot.dev such a great place to learn backend development? Use one paragraph maximum."
     )
     print(response.text)
+    print(f"Prompt tokens: {response.usage_metadata.prompt_token_count}")
+    print(f"Response tokens: {response.usage_metadata.candidates_token_count}")
+
+def get_prompt_from_cmdl():
+    cmd_args = sys.argv[1:]
+    if not cmd_args:
+        print("Usage: uv run main.py \"write_prompt_here\"")
+        sys.exit(1)
+    prompt_entered = " ".join(cmd_args)
+    return prompt_entered
 
 if __name__ == "__main__":
     main()
