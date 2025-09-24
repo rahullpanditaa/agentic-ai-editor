@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-import sys
 
 def get_files_info(boundary_directory, directory="."):
     # directory is relative path within the working directory
