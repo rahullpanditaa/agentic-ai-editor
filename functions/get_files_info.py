@@ -10,7 +10,7 @@ def get_files_info(boundary_directory, directory="."):
     target_path = boundary_path / directory
 
     # check whether target path inside working path
-    if not target_path.is_relative_to(boundary_path):
+    if not target_path.resolve().is_relative_to(boundary_path):
         return f'Error: Cannot list "{directory}" as it is outside the permitted working directory'
     
     if not target_path.is_dir():
@@ -22,7 +22,6 @@ def get_files_info(boundary_directory, directory="."):
     
     return directory_contents.rstrip()
 
-print(get_files_info("calculator", "/bin"))
     
 
     
