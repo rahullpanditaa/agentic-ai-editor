@@ -46,7 +46,7 @@ schema_run_python_file = types.FunctionDeclaration(
     )
 )
 
-schema_wrte_file = types.FunctionDeclaration(
+schema_write_file = types.FunctionDeclaration(
     name="write_file",
     description="Write to the given file path the given content as argument. The file has to be within the working directory",
     parameters=types.Schema(
