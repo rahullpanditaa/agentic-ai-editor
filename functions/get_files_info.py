@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
 
-def get_files_info(boundary_directory, directory="."):
+def get_files_info(working_directory, directory="."):
     # directory is relative path within the working directory
 
-    boundary_path = Path(boundary_directory)
+    boundary_path = Path(working_directory)
     boundary_path = boundary_path.resolve()
     target_path = boundary_path / directory
 

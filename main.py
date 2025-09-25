@@ -5,6 +5,7 @@ from google import genai
 from google.genai import types
 from system_prompt import system_prompt
 from functions.function_schemas import schema_get_files_content, schema_get_files_info, schema_run_python_file, schema_write_file
+from call_function import call_function
 
 def main():
     generate_response()
@@ -38,11 +39,18 @@ def generate_response():
         config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt)
     )    
 
-    if response.function_calls:
-        for f in response.function_calls:
-            print(f"Calling function: {f.name}({f.args})")
+    function_call_result = call_function(*response.function_calls, verbose=verbose)  
+    if function_call_result.parts[0].function_response.response:
+        if verbose:
+            print(f"-> {function_call_result.parts[0].function_response.response}")
     else:
-        print(response.text)
+        raise Exception("FATAL!!!")
+
+    # if response.function_calls:
+    #     for f in response.function_calls:
+    #         print(f"Calling function: {f.name}({f.args})")
+    # else:
+    #     print(response.text)
 
 def get_prompt_from_cmdl():
     cmd_args = sys.argv[1:]
