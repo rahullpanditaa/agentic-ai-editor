@@ -18,11 +18,7 @@ def get_api_key():
 def generate_response():
     client = genai.Client(api_key=get_api_key())
     user_prompt = get_prompt_from_cmdl()
-    verbose = "--verbose" in sys.argv
-
-    messages = [
-        types.Content(role="user", parts=[types.Part(text=user_prompt.removesuffix("--verbose"))])
-    ]
+    verbose = "--verbose" in sys.argv    
     
     available_functions = types.Tool(
         function_declarations=[
@@ -32,25 +28,34 @@ def generate_response():
             schema_write_file
         ]
     )
-    
-    response = client.models.generate_content(
-        model="gemini-2.0-flash-001", 
-        contents=messages,
-        config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt)
-    )    
-
-    function_call_result = call_function(*response.function_calls, verbose=verbose)  
-    if function_call_result.parts[0].function_response.response:
-        if verbose:
-            print(f"-> {function_call_result.parts[0].function_response.response}")
-    else:
-        raise Exception("FATAL!!!")
-
-    # if response.function_calls:
-    #     for f in response.function_calls:
-    #         print(f"Calling function: {f.name}({f.args})")
-    # else:
-    #     print(response.text)
+    messages = [
+        types.Content(role="user", parts=[types.Part(text=user_prompt.removesuffix("--verbose"))])
+    ]
+    try:
+        for _ in range(20):
+            response = client.models.generate_content(
+                model="gemini-2.0-flash-001", 
+                contents=messages,
+                config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt)
+            )
+            for candidate in response.candidates:
+                if candidate.content and candidate.content.parts:
+                    for part in candidate.content.parts:
+                        if part.text:
+                            messages.append(types.Content(role="model", parts=[types.Part(text=part.text)]))
+            #     messages.append(types.Content(role="model", parts=[types.Part(text=candidate.content)]))
+            
+            if response.function_calls:
+                function_call_result = call_function(*response.function_calls, verbose=verbose)
+                messages.append(
+                types.Content(
+                    role="user", 
+                    parts=[types.Part(function_response=function_call_result.parts[0].function_response)]))
+            elif response.text:
+                print(response.text)
+                break
+    except Exception as e:
+        print(f"Error: {e}")    
 
 def get_prompt_from_cmdl():
     cmd_args = sys.argv[1:]
