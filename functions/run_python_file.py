@@ -15,7 +15,7 @@ def run_python_file(working_directory, file_path, args=[]):
     if target_python_file_path.suffix != ".py":
         return f'Error: "{file_path}" is not a Python file.'
     
-    try:
+    try:                         # can also put uv run
         process = subprocess.run(["python3", file_path, *args], capture_output=True, cwd=working_directory_path, timeout=30.0, text=True)
         out = process.stdout
         err = process.stderr

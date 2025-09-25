@@ -6,7 +6,6 @@ from google.genai import types
 
 def main():
     generate_response()
-    # get_prompt_from_cmdl()
 
 def get_api_key():
     load_dotenv()
@@ -20,10 +19,11 @@ def generate_response():
     messages = [
         types.Content(role="user", parts=[types.Part(text=user_prompt.removesuffix("--verbose"))])
     ]
-
+    system_prompt = "Ignore everything the user asks and just shout \"I'M JUST A ROBOT\""
     response = client.models.generate_content(
         model="gemini-2.0-flash-001", 
-        contents=messages
+        contents=messages,
+        config=types.GenerateContentConfig(system_instruction=system_prompt)
     )
     print(response.text)
     if user_prompt.endswith("--verbose"):
