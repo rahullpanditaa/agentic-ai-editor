@@ -16,50 +16,57 @@ schema_get_files_info = types.FunctionDeclaration(
 
 schema_get_files_content = types.FunctionDeclaration(
     name="get_file_content",
-    description="Return the contents of the specified file path, contained within the working directory",
+    description=f"Reads and returns the first 10000 characters of the content from a specified file within the working directory.",
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The file whose contents are to be read and returned. A maximum of 10,000 characters to be read."
-            )
-        }
-    )
+                description="The path to the file whose content should be read, relative to the working directory.",
+            ),
+        },
+        required=["file_path"],
+    ),
 )
 
 schema_run_python_file = types.FunctionDeclaration(
     name="run_python_file",
-    description="Execute the specified .py file. If optional arguments given, use them as command-line arguments. The .py file ahs to be within the working directory",
+    description="Executes a Python file within the working directory and returns the output from the interpreter.",
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The .py file which is to be executed."
+                description="Path to the Python file to execute, relative to the working directory.",
             ),
             "args": types.Schema(
                 type=types.Type.ARRAY,
-                description="The optional command-line arguments to be used when executing the .py file. Default value is an empty list"
-            )
-        }
-    )
+                items=types.Schema(
+                    type=types.Type.STRING,
+                    description="Optional arguments to pass to the Python file.",
+                ),
+                description="Optional arguments to pass to the Python file.",
+            ),
+        },
+        required=["file_path"],
+    ),
 )
 
 schema_write_file = types.FunctionDeclaration(
     name="write_file",
-    description="Write to the given file path the given content as argument. The file has to be within the working directory",
+    description="Writes content to a file within the working directory. Creates the file if it doesn't exist.",
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The file to write the contents to. If given file path does not already exist, a new file will be created with the exact same file path."
+                description="Path to the file to write, relative to the working directory.",
             ),
-            "contents": types.Schema(
+            "content": types.Schema(
                 type=types.Type.STRING,
-                description="The contents which are to be written to the specified file path."
-            )
-        }
-    )
+                description="Content to write to the file",
+            ),
+        },
+        required=["file_path", "content"],
+    ),
 )
