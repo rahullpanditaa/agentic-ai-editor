@@ -1,6 +1,6 @@
-import os
 from pathlib import Path
 
+# get info about all files in directory
 def get_files_info(working_directory, directory="."):
     # directory is relative path within the working directory
 
