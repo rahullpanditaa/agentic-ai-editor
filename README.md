@@ -114,6 +114,18 @@ uv run main.py "read main.py" --verbose
 
 ## 🖼️ Screenshots
 
+### Reading a file
+![Reading a file](screenshots/read_file.png)
+
+### List all files
+![List all files](screenshots/get_files_info.png)
+
+### Explore functionality
+![Explore functionality](screenshots/explore.png)
+
+### Fix a bug
+![Fix a bug](screenshots/fix_bug.png)
+
 ## 🧠 Example Outputs
 
 ### Listing files:

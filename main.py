@@ -19,11 +19,6 @@ from call_function import call_function
 def main():
     generate_response()
 
-# def get_api_key():
-#     load_dotenv()
-#     api_key = os.environ.get("GEMINI_API_KEY")
-#     return api_key
-
 def generate_response():
     client = gemini_client_setup()
     user_prompt = _get_prompt_from_cmdl()
@@ -113,16 +108,6 @@ def _get_prompt_from_cmdl():
         sys.exit(1)
     prompt_entered = " ".join(cmd_args)
     return prompt_entered
-
-# def gemini_client_setup():
-#     load_dotenv()
-#     try:
-#         api_key = os.environ.get("GEMINI_API_KEY")
-#     except Exception as e:
-#         print("Unable to load GEMINI_API_KEY from .env file:")
-#         print(e)
-#     client = genai.Client(api_key=api_key)
-#     return client
 
 
 if __name__ == "__main__":
