@@ -54,9 +54,9 @@ agentic-ai-editor/
 │   ├── get_file_content.py
 │   ├── get_files_info.py
 │   ├── run_python_file.py
-│   └── write_file.py
-├── function_schemas/
-│   └── ...schemas for each tool
+│   |── write_file.py
+|   |__function_schemas.py (schemas for each tool)
+│    
 ├── calculator/            # Sandboxed working directory (Example code for this project)
 │   ├── main.py
 │   ├── tests.py
