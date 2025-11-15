@@ -1,5 +1,10 @@
 # Agentic AI Editor (Toy Claude Code)
 
+<p align="center">
+  <img src="screenshots/demo.gif" width="650">
+</p>
+
+
 A lightweight, CLI-based code-editing agent inspired by tools like Cursor, OpenCode, and Claude Code. This project demonstrates how to build an **agentic coding assistant** using Google's free Gemini API.
 
 The agent can:
@@ -183,3 +188,7 @@ This project demonstrates:
 
 ---
 
+## Documentation
+- [ARCHITECTURE.md](ARCHITECTURE.md)
+- [USAGE.md](USAGE.md)
+- [FUNCTIONS.md](FUNCTIONS.md)
